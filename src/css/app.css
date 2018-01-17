@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body{
+    background: #1D1D1F;
+    color: whitesmoke;
+    min-height: 100vh;
+}

@@ -1,6 +1,5 @@
-angular.module('app', [
+angular.module('App', [
     'ngRoute'
-
 ])
 .config([
     '$routeProvider',

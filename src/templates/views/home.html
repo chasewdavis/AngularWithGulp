@@ -1,3 +1,34 @@
-<h1>
-    {{message}}
-</h1>
+<div class="home-container">
+    <div class="contain-center">
+    <header>TRIVIA ARCADE</header>
+    <div class="titles">
+        <header>CATEGORY</header>
+        <header>DIFFICULTY</header>
+        <header>HIGH SCORES</header>
+    </div>
+    <div class="select-game">
+        <div class="scroll-box category">
+            <button 
+                ng-repeat="item in categories" 
+                ng-class="item.sel ? 'highlight' : 'no-highlight' "
+                ng-click="selectCat($index)">
+                {{item.cat}}
+            </button>
+        </div>
+        <div class="scroll-box difficulty">
+            <button ng-click="selectDiff('easy')" ng-class="difficulty === 'easy' ? 'highlight' : 'no-highlight' ">Easy</button>
+            <button ng-click="selectDiff('medium')" ng-class="difficulty === 'medium' ? 'highlight' : 'no-highlight' ">Medium</button>
+            <button ng-click="selectDiff('hard')" ng-class="difficulty === 'hard' ? 'highlight' : 'no-highlight' ">Hard</button>
+            <button ng-click="selectDiff('any')" ng-class="difficulty === 'any' ? 'highlight' : 'no-highlight' ">Any</button>
+        </div>
+        <div class="scroll-box high-scores">
+            <div ng-repeat="x in highscoresByCategory">{{$index + 1}}. {{x.username}} {{x.score}}</div>
+        </div>
+
+        <div class="shaddow shaddow-top"></div>
+        <div class="shaddow shaddow-bottom"></div>
+
+    </div>
+    <footer><a ng-click="callSrvc(category,difficulty)" ui-sref="trivia"><button>PLAY</button></a></footer>
+    <div>
+</div>

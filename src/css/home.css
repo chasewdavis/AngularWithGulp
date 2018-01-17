@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css?family=Share+Tech+Mono');
+
+button {
+    border:none;
+}
+
+.home-container {
+    width:60%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0 20%;
+    font-family: 'Share Tech Mono';
+}
+
+.home-container button {
+    outline: none;
+    cursor: pointer;
+    color: rgb(175, 240, 210);
+    transition: background-color .5s;
+}
+
+/* way too general screwing a lot of things up */
+.home-container button:hover{
+    /* background-color: #1D1D1F; */
+}
+
+.contain-center{
+    border: 5px solid rgb(113, 133, 123);
+    border-left: 5px solid rgb(175, 240, 210);
+    border-bottom: 5px solid rgb(175, 240, 210);
+    border-radius: 13px;
+    overflow: hidden;
+    width: 100%;
+    background: #303238;
+    color: rgb(216, 175, 240);
+    color: rgb(175, 240, 210);
+    transition: border .5s, border-left .5s, border-right .5s;
+}
+
+.contain-center:hover{
+    border: 5px solid rgb(175, 240, 210);
+    border-left: 5px solid rgb(113, 133, 123);
+    border-bottom: 5px solid rgb(113, 133, 123);
+}
+
+.contain-center > header{
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Share Tech Mono';
+    font-size: 60px;
+    width: 100%;
+    border-bottom: 2px solid rgb(113, 133, 123);
+}
+
+.titles {
+    display: flex;  
+}
+
+.titles header {
+    width: calc(100% / 3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    font-family: 'Share Tech Mono';
+    font-size: 30px;
+    border-bottom: 2px solid rgba(145, 145, 145, 0.377);
+    border-bottom: 2px solid rgb(113, 133, 123);
+}
+
+.select-game {
+    position: relative;
+    display: grid;
+    height: 300px;
+    width: 100%;
+    grid-template-columns: repeat(3, 3FR);
+    grid-template-rows: repeat(1, 1FR);
+}
+
+.home-container .select-game .shaddow {
+    position: absolute;
+    width: calc( 100% / 3 + 2px);
+    height: 20px;
+    
+    left: -1px;
+    background: linear-gradient(0deg, rgba(113, 133, 123,.5), rgba(0,0,0,0))
+}
+
+.home-container .select-game .shaddow-top {
+    top: 0;
+    background: linear-gradient(180deg, rgba(113, 133, 123,.5), rgba(0,0,0,0))
+}
+
+.home-container .select-game .shaddow-bottom {
+    bottom:0;
+    background: linear-gradient(0deg, rgba(113, 133, 123,.5), rgba(0,0,0,0))
+}
+
+.select-game button {
+    width: 100%;
+    font-family: 'Share Tech Mono';
+    font-size: 25px;
+    background-color: rgba(0,0,0,0);
+    border-bottom: 2px solid rgba(145, 145, 145, 0.377);
+    border-bottom: 2px solid rgb(113, 133, 123);
+}
+
+.scroll-box {
+    overflow-y: scroll;
+}
+
+.category button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% / 4);
+    width: 100%;
+}
+
+.difficulty {
+    border-left: 2px solid rgba(112, 112, 112, 0.377);
+    border-left: 2px solid rgb(113, 133, 123);
+}
+
+.difficulty button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% / 4);
+}
+
+.high-scores {
+    height: 100%;
+    border-left: 2px solid rgba(112, 112, 112, 0.377);
+    border-left: 2px solid rgb(113, 133, 123);
+}
+
+.high-scores div {
+    height: calc(100% / 4);
+    border-bottom: 2px solid rgba(145, 145, 145, 0.377);
+    border-bottom: 2px solid rgb(113, 133, 123);
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 20px;
+}
+
+
+.home-container footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-container footer button {
+    font-size: 50px;
+    padding: 20px;
+    width: 100%;
+    font-family: 'Share Tech Mono';
+    background-color: rgba(0,0,0,0);
+    transition: background-color .5s;
+}
+
+.home-container footer a {
+    width: 100%;
+}
+
+.home-container footer button:hover {
+    background-color: #1D1D1F;
+}
+
+.highlight {
+    background-color: rgb(175, 240, 210) !important;
+    color: #303238 !important;
+}
