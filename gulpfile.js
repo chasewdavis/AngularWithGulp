@@ -1,5 +1,8 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
+
 const browserSync = require('browser-sync').create();
 
 const scripts = require('./scripts');
@@ -21,6 +24,7 @@ gulp.task('css', function() {
 gulp.task('js', function() {
     gulp.src(scripts)
         .pipe(concat('scripts.js'))
+        .pipe(uglify())
         .pipe(gulp.dest('./dist/js'))
         .pipe(browserSync.reload({
             stream: true
