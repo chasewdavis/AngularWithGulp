@@ -1,8 +1,4 @@
-// angular.module('App').controller('homeCtrl', ['$scope', function($scope){
-//     $scope.message = 'We did it!'
-// }])
-
-// angular.module('App').controller('selectCtrl', ['$scope', 'srvc', 'catSrvc', function($scope, srvc, catSrvc ){
+    
     angular.module('App').controller('homeCtrl', ['$scope', 'srvc', 'catSrvc', function($scope, srvc, catSrvc){
     $scope.categories = [
         {'cat':'Sports','sel':false, 'id': 21},
@@ -40,9 +36,8 @@
         $scope.difficulty = difficulty;
     }
 
-    // $scope.callSrvc = function(cat,diff){
-    //     // console.log('cat and diff are...', cat, diff)
-    //     srvc.setQuestions(cat, diff)
-    // }
+    $scope.callSrvc = function(cat,diff){
+        srvc.setQuestions(cat, diff)
+    }
 
 }])

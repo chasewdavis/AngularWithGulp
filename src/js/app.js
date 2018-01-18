@@ -9,16 +9,3 @@ angular.module('App', ['ui.router'])
 //         })
 //     }
 // ])
-
-angular.module('App').config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-
-        $stateProvider.state('home', {
-            url:'/',
-            templateUrl: 'views/home.html',
-            controller: 'homeCtrl'
-        })
-
-        $urlRouterProvider.otherwise('/')
-    }
-
-])
