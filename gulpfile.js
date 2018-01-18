@@ -24,7 +24,7 @@ gulp.task('css', function() {
 gulp.task('js', function() {
     gulp.src(scripts)
         .pipe(concat('scripts.js'))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(gulp.dest('./dist/js'))
         .pipe(browserSync.reload({
             stream: true
