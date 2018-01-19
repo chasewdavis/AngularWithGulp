@@ -1,0 +1,61 @@
+<div class="home-container">
+    <div class="contain-center questions">
+
+        <div class="q-header">
+            <div>{{qs[currentIndex].category}} - {{qs[currentIndex].difficulty}}</div>
+            <div></div>
+            <div>+{{qs[currentIndex].points}} pts</div>
+        </div>
+
+        <!-- <div class="q-header">
+            <div>Correctly Answered: 100</div>
+            <div>Time Bonus: 50</div>
+            <div>Difficulty Bonus: 50</div>
+            <div>Points Earned: 200</div>
+        </div> -->
+
+        <div class="question">
+            <h5>{{qs[currentIndex].question}}</h5>
+            <div class="answer-container">
+                <button 
+                    id="no-click-btn" 
+                    ng-class="qs[currentIndex].correctIndex === $index ? 'correct-highlight' : qs[currentIndex].userIndex === $index ? 'incorrect-highlight' : 'nothin' " 
+                    disabled="true" ng-repeat="x in qs[currentIndex].incorrect_answers">
+                        {{x}}
+                        <span ng-show="qs[currentIndex].userIndex === 10">
+                            <i ng-show="qs[currentIndex].correctIndex === $index" class="fa fa-clock-o" aria-hidden="true"></i>
+                        </span>
+                </button>
+            </div>
+        </div>
+
+        <div class="q-footer">
+
+            <button ng-click="changeIndex('down')" class="nav-btn nav-btn-left">
+                <div class="gradient"></div>
+                <div class="icon">
+                    <i class="fa fa-angle-left fa-2x" aria-hidden="true"></i>
+                </div>
+            </button>
+
+            <button ng-click="changeIndex($index)" ng-repeat="x in qs">
+                <i class="round-nav-btn fa fa-3x" 
+                   ng-class=" $index === currentIndex ? x.correctIndex === x.userIndex ? 'fa-check-circle' : 'fa-times-circle' : 'fa-circle-o' "  
+                   aria-hidden="true">
+                </i>
+            </button>
+
+            <button ng-click="changeIndex('up')" class="nav-btn nav-btn-right">
+                <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+                <div></div>
+            </button>
+
+        </div>
+
+        <div class="app-nav-container">
+            <a ui-sref='results'>Save Score</a>
+            <a ui-sref='home'>Try Again</a>
+        </div>
+
+    </div>
+</div>

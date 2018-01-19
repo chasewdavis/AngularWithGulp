@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
+  "proxy": "http://localhost:8088",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node server/server.js"
@@ -10,8 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@uirouter/angularjs": "^1.0.13",
     "angular": "^1.6.8",
     "angular-route": "^1.6.8",
+    "angular-ui-router": "^1.0.3",
     "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
