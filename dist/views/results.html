@@ -1,0 +1,27 @@
+<div class="home-container results">
+
+    <div class="contain-center contain-results">
+
+        <header>{{results.category ? results.category : 'All Categories' }}</header>
+
+        <div class="scoring">
+            <div>Score: {{results.score}}</div>
+            <div class="enter-name">
+                <p>Enter Name:</p> 
+                <input ng-model="username" maxlength="11"/>
+            </div>
+            <div class="outoften">
+                <div>{{ results.count === 10 ? 10 : '0' + results.count.toString() }}</div>
+                <div id="divide"></div>
+                <div>10</div>
+            </div>
+        </div>
+
+        <footer>
+            <a ui-sref="questions">View Questions</a>
+            <a ng-click="save(username,results.category,results.score)" ui-sref="home">Save &amp; Continue</a>
+        </footer>
+
+    </div>
+
+</div>
