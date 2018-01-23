@@ -1,0 +1,25 @@
+<div class="home-container">
+    <div class="contain-center trivia">
+
+        <header>
+            <span>{{index + 1}} / 10</span>
+            <span>{{trivia[index].category}}</span>
+            <span>{{score}}</span>
+        </header>
+
+        <div class="question" ng-class=" paused ? correct ? 'correct' : 'nothin' : 'nothin' ">
+            <h5>{{trivia[index].question}}</h5>
+            <div class="answer-container" ng-class=" paused ? correct ? 'nothin' : 'incorrect' : 'nothin' ">
+            <button ng-disabled=" paused ? true : false " ng-click="checkAnswer($index)" ng-repeat="x in trivia[index].incorrect_answers">{{x}}</button>
+            </div>
+        </div>
+
+        <footer>  
+            {{ time_remaining > 10 ? 10 : time_remaining }} seconds remaining!
+            <div id="timer_animation" class="start_timer" ng-class=" paused ? 'pause_timer' : resetTimerClass() ">
+                <span>{{ time_remaining > 10 ? 10 : time_remaining }} seconds remaining!</span>
+            </div>
+        </footer>
+
+    </div>
+</div>

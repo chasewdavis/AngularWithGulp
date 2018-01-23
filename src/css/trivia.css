@@ -144,3 +144,52 @@
         transform: translate(0px);
     }
 }
+
+@media (max-width:500px) {
+    .trivia {
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1FR;
+        grid-template-rows: repeat(10, 10FR);
+    }
+
+    .trivia header {
+        grid-row: 1/2;
+    }
+
+    .trivia header span:nth-child(2){
+        display: none;
+    }
+
+    .trivia .question {
+        /* border: 2px solid floralwhite; */
+        display: flex;
+        flex-direction: column;
+        grid-row: 2/10;
+    }
+
+    .answer-container {
+        /* border:1px solid white; */
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .answer-container button {
+        width: 100%;
+        margin: 0;
+        padding: 20px 0;
+        border: 4px solid rgb(175, 240, 210);
+    }
+
+    .trivia footer {
+        /* border: 2px solid fuchsia; */
+        font-size: 26px;
+        grid-row: 10/11;
+    }
+
+    .trivia footer div {
+        /* border: 3px solid blue; */
+    }
+}
