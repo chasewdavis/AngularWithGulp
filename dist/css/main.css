@@ -18,7 +18,7 @@ button {
 
 .home-container {
     width:60%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,7 +44,7 @@ button {
     border-left: 5px solid rgb(175, 240, 210);
     border-bottom: 5px solid rgb(175, 240, 210);
     border-radius: 13px;
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 100%;
     background: #303238;
     color: rgb(216, 175, 240);
@@ -88,7 +88,7 @@ button {
 .select-game {
     position: relative;
     display: grid;
-    height: 300px;
+    min-height: 300px;
     width: 100%;
     grid-template-columns: repeat(3, 3FR);
     grid-template-rows: repeat(1, 1FR);
@@ -100,7 +100,7 @@ button {
     height: 20px;
     
     left: -1px;
-    background: linear-gradient(0deg, rgba(113, 133, 123,.5), rgba(0,0,0,0))
+    background: linear-gradient(0deg, rgba(113, 133, 123,.5), rgba(0,0,0,0));
 }
 
 .home-container .select-game .shaddow-top {
@@ -124,6 +124,10 @@ button {
 
 .scroll-box {
     overflow-y: scroll;
+}
+
+.scroll-box header{
+    display: none;
 }
 
 .category button {
@@ -190,6 +194,93 @@ button {
 .highlight {
     background-color: rgb(175, 240, 210) !important;
     color: #303238 !important;
+}
+
+.no-cat-selected {
+    justify-content: center;
+    padding: 10px;
+}
+
+@media (max-width:1024px) {
+    .home-container{
+        width: 100%;
+        margin: 0 0;
+        /* display: block; */
+    }
+
+}
+
+@media (max-width:500px) {
+    .contain-center{
+        min-height: 100%;
+        border-radius: 0;
+        border: none;
+    }
+
+    .titles {
+        display: none;
+    }
+
+    .contain-center > header {
+        font-size: 45px;
+        padding: 20px 0;
+    }
+
+    .contain-center:hover{
+        /* border: 5px solid rgb(175, 240, 210);
+        border-left: 5px solid rgb(113, 133, 123);
+        border-bottom: 5px solid rgb(113, 133, 123); */
+        border: none;
+    }
+
+    .scroll-box header{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        border-bottom: 2px solid rgb(113, 133, 123);
+        background: #1D1D1F;
+        padding: 10px 0;
+    }
+
+    .scroll-box button, .high-scores div {
+        padding: 10px 0 10px 10px;
+        justify-content: flex-start;
+        font-size: 26px;
+    }
+
+    .high-scores .no-cat-selected {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .home-container .select-game {
+        /* border: 2px solid fuchsia; */
+        display: flex; 
+        flex-direction: column;
+        /* grid-template-columns: repeat(1, 1FR);
+        grid-template-rows: repeat(3, 3FR); */
+    }
+
+    .home-container .select-game .shaddow {
+        display: none;
+    }
+
+    .home-container .select-game .category {
+        /* border: 2px solid blue; */
+    }
+
+    .home-container .select-game .difficulty {
+        /* border: 2px solid gold; */
+    }
+
+    .home-container .select-game .high-scores {
+        /* border: 2px solid blue; */
+    }
+
+    .difficulty, .high-scores {
+        border: none;
+    }
 }
 .questions .q-header {
     font-size: 25px;
@@ -579,5 +670,11 @@ button {
     }
     100%{
         transform: translate(0px);
+    }
+}
+
+@media (max-width:500px) {
+    .trivia {
+        min-height: 100vh;
     }
 }

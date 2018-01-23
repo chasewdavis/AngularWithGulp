@@ -1,6 +1,7 @@
 <div class="home-container">
     <div class="contain-center">
     <header>TRIVIA ARCADE</header>
+    <!-- titles displayed on 500px or more -->
     <div class="titles">
         <header>CATEGORY</header>
         <header>DIFFICULTY</header>
@@ -8,6 +9,7 @@
     </div>
     <div class="select-game">
         <div class="scroll-box category">
+            <header>CATEGORY</header>
             <button 
                 ng-repeat="item in categories" 
                 ng-class="item.sel ? 'highlight' : 'no-highlight' "
@@ -16,12 +18,16 @@
             </button>
         </div>
         <div class="scroll-box difficulty">
+            <!-- header is hidden on 500px or more -->
+            <header>DIFFICULTY</header>
             <button ng-click="selectDiff('easy')" ng-class="difficulty === 'easy' ? 'highlight' : 'no-highlight' ">Easy</button>
             <button ng-click="selectDiff('medium')" ng-class="difficulty === 'medium' ? 'highlight' : 'no-highlight' ">Medium</button>
             <button ng-click="selectDiff('hard')" ng-class="difficulty === 'hard' ? 'highlight' : 'no-highlight' ">Hard</button>
             <button ng-click="selectDiff('any')" ng-class="difficulty === 'any' ? 'highlight' : 'no-highlight' ">Any</button>
         </div>
         <div class="scroll-box high-scores">
+            <header>HIGH SCORES</header>
+            <div class="no-cat-selected" ng-show="!highscoresByCategory.length">(Select Category)</div>
             <div ng-repeat="x in highscoresByCategory">{{$index + 1}}. {{x.username}} {{x.score}}</div>
         </div>
 
