@@ -493,7 +493,7 @@ button {
     border-bottom: 2px solid rgb(113, 133, 123);
 }
 
-.results .scoring .correct{
+.results .scoring .correct-ten{
     display: none;
 }
 
