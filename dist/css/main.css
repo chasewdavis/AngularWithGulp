@@ -442,6 +442,10 @@ button {
         text-align: center;
     }
 
+    .questions .question .answer-container button {
+        padding:12px 0;
+    }
+
     .question {
         /* border: 2px solid fuchsia; */
         grid-row: 2/9;
