@@ -410,6 +410,67 @@ button {
     /* background: linear-gradient(90deg, rgba(0,0,0,0), #1D1D1F); */
     /* color: rgb(113, 133, 123); */
 }
+
+@media (max-width:1024px) {
+    .questions{
+        width: 100%;
+        /* overflow: hidden; */
+    }
+}
+
+@media (max-width:500px) {
+    .questions {
+        /* border: 2px solid floralwhite; */
+        height: 100vh;
+        width: 100%;
+        display: grid;
+        grid-template-rows: repeat(10, 10FR);
+    }
+
+    .questions .q-header {
+        grid-row: 1/2;
+        font-size: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .question {
+        /* border: 2px solid fuchsia; */
+        grid-row: 2/9;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .questions h5 {
+        font-size: 18px;
+    }
+
+    .questions .q-footer {
+        /* border: 2px solid floralwhite; */
+        /* overflow: hidden; */
+        grid-row: 9/10;
+        margin: 0;
+    }
+
+    .questions .q-footer .round-nav-btn {
+        transform: translateY(2px) scale(.7);
+    }
+
+    .questions .q-footer i {
+        transform: scale(.7);
+    }
+
+    .questions .q-footer .nav-btn-right, .questions .q-footer .nav-btn-left {
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .questions .app-nav-container {
+        grid-row: 10/11;
+    }
+}
 /* rgb(175, 240, 210); */
 
 .results{
@@ -430,6 +491,14 @@ button {
     font-size: 25px;
     position: relative;
     border-bottom: 2px solid rgb(113, 133, 123);
+}
+
+.results .scoring .correct{
+    display: none;
+}
+
+.results .scoring > input {
+    display: none;
 }
 
 /* .results .scoring div:nth-child(2) {
@@ -525,6 +594,84 @@ button {
 
 .results footer a:nth-child(1){
     border-right: 2px solid rgb(113, 133, 123);
+}
+
+@media (max-width:1024px) {
+    .results .contain-results {
+        width: 100%;
+    }
+}
+
+@media (max-width:500px) {
+    .results .contain-results{
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1FR;
+        grid-template-rows: repeat(10, 10FR);
+    }
+
+    .results .contain-results header {
+        grid-row: 1/2;
+    }
+
+    .results .scoring {
+        grid-row: 2/10;
+        /* border: 3px solid white; */
+        padding: 80px 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .results .scoring .correct-ten {
+        display: flex;
+    }
+
+    .results .scoring .enter-name {
+        /* border: 2px solid orange; */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .results .scoring .enter-name p {
+        position: static;
+        margin: 0;
+    }
+
+    .results .scoring > input {
+        display: flex;
+        padding: 5px 5px 5px 10px;
+        background-color: #1D1D1F;
+        background-color: inherit;
+        border: 2px solid rgb(113, 133, 123);
+        border-radius: 5px;
+        outline: rgb(113, 133, 123);
+        caret-color: rgb(113, 133, 123);
+        font-size: 20px;
+        color: rgb(175, 240, 210);
+        font-family: inherit; 
+    }
+
+    .results .scoring > input:focus {
+        box-shadow: inset 0 0 12px rgb(113, 133, 123);
+    }
+
+    .results .scoring .enter-name input {
+        display: none;
+    }
+
+    .outoften {
+        display: none;
+    }
+
+    .results footer {
+        grid-row: 10/11;
+        padding: 0px;
+    }
+
+    .results footer a {
+        font-size: 26px;
+    }
 }
 .trivia > header {
     font-size: 25px;
@@ -675,6 +822,49 @@ button {
 
 @media (max-width:500px) {
     .trivia {
-        min-height: 100vh;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1FR;
+        grid-template-rows: repeat(10, 10FR);
+    }
+
+    .trivia header {
+        grid-row: 1/2;
+    }
+
+    .trivia header span:nth-child(2){
+        display: none;
+    }
+
+    .trivia .question {
+        /* border: 2px solid floralwhite; */
+        display: flex;
+        flex-direction: column;
+        grid-row: 2/10;
+    }
+
+    .answer-container {
+        /* border:1px solid white; */
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .answer-container button {
+        width: 100%;
+        margin: 0;
+        padding: 20px 0;
+        border: 4px solid rgb(175, 240, 210);
+    }
+
+    .trivia footer {
+        /* border: 2px solid fuchsia; */
+        font-size: 26px;
+        grid-row: 10/11;
+    }
+
+    .trivia footer div {
+        /* border: 3px solid blue; */
     }
 }
