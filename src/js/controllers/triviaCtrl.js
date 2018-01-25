@@ -34,7 +34,6 @@ angular.module('App').controller('triviaCtrl', ['$scope', '$state', '$timeout', 
 
         $timeout(subtract, 0);
 
-        console.log($scope.trivia)
     });
 
     var subtract = function(){
