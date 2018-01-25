@@ -16,6 +16,10 @@ angular.module('App').config(['$stateProvider', '$urlRouterProvider', function($
         url: '/questions',
         templateUrl: 'views/questions.html',
         controller: 'finishedQuestions'
+    }).state('demo', {
+        url: '/demo',
+        templateUrl: 'views/demo.html',
+        controller: 'demoCtrl'
     })
 
     $urlRouterProvider.otherwise('/')
