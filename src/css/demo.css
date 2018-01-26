@@ -1,0 +1,28 @@
+.pages-container {
+    width: 100vw;
+    border: 5px solid gold;
+    /* position: fixed; */
+    overflow: scroll;
+    /* display: flex; */
+    /* justify-content: center; */
+}
+
+.pages {
+    width: 500vw;
+    display: flex;
+    transform: translateX(-200vw);
+}
+
+.page {
+    height: calc(100vh - 10px);
+    width: 100vw;
+    border: 2px solid white;
+}
+
+.red {
+    background: red;
+}
+
+.blue {
+    background: blue;
+}
