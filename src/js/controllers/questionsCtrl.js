@@ -107,7 +107,7 @@ angular.module('App').controller('finishedQuestions', ['$scope', 'srvc', '$timeo
 
     function displayCards(){
 
-        console.log($scope.currentIndex)
+        // console.log($scope.currentIndex)
 
         if($scope.currentIndex > 1 && $scope.currentIndex < 8) {
             $scope.cards = $scope.qs.slice($scope.currentIndex-2,$scope.currentIndex+3)
@@ -121,7 +121,7 @@ angular.module('App').controller('finishedQuestions', ['$scope', 'srvc', '$timeo
             $scope.cards.push( ...$scope.qs.slice(0, remaining ) )
         }
 
-        console.log($scope.cards)
+        // console.log($scope.cards)
 
     }
 
