@@ -35826,24 +35826,41 @@ angular.module('App').controller('triviaCtrl', ['$scope', '$state', '$timeout', 
     $scope.incorrect_answers;
     var timer;
 
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
     srvc.getQuestions()
     .then(function(res) {
         $scope.trivia = res;
         $scope.trivia.forEach( e => {
+            console.log('e is...', e);
             let correctIndex = Math.floor( Math.random() * ( e.incorrect_answers.length + 1 ) );
             e.correctIndex = correctIndex;
             e.incorrect_answers.splice(correctIndex, 0, e.correct_answer);
         });
         $scope.trivia.forEach( e => {
-            e.question = e.question.replace(/&#039;/g, "\'");
-            e.question = e.question.replace(/&quot;/g, '\"');
-            // should find a much better way to do this
-            e.incorrect_answers = e.incorrect_answers.map( s => {
-                return s.replace(/&#039;/g, '\'' )
+            // e.question = e.question.replace(/&#039;/g, "\'");
+            // e.question = e.question.replace(/&quot;/g, '\"');
+            // // should find a much better way to do this
+            // e.incorrect_answers = e.incorrect_answers.map( s => {
+            //     return s.replace(/&#039;/g, '\'' )
+            // })
+            // e.incorrect_answers = e.incorrect_answers.map( s => {
+            //     return s.replace(/&quot;/g, '\"' )
+            // })
+
+            e.question = decodeHtml(e.question);
+
+            e.incorrect_answers = e.incorrect_answers.map(e => {
+                return decodeHtml(e);
             })
-            e.incorrect_answers = e.incorrect_answers.map( s => {
-                return s.replace(/&quot;/g, '\"' )
-            })
+
+            console.log('question is...', e.question);
+            
+            console.log('answers are...', e.incorrect_answers)
         })
         
         $scope.paused = false;
