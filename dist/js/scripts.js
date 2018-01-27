@@ -35655,7 +35655,10 @@ angular.module('App').controller('demoCtrl', ['$scope', 'srvc', '$timeout', func
     }
 
 }])
-angular.module('App').controller('finishedQuestions', ['$scope', 'srvc', function($scope, srvc){
+angular.module('App').controller('finishedQuestions', ['$scope', 'srvc', '$timeout', '$window', function($scope, srvc, $timeout, $window){
+
+    //----First Section will be used on both mobile and full size laptops / desktops.----//
+
     $scope.qs = srvc.getFinishedQuestions();
     $scope.currentIndex = 0;
     $scope.changeIndex = function(arg){
@@ -35667,6 +35670,120 @@ angular.module('App').controller('finishedQuestions', ['$scope', 'srvc', functio
             $scope.currentIndex === 0 ? $scope.currentIndex = 9 : $scope.currentIndex--;
         }
     }
+
+    //-----Next section is for the mobile / tablet only touch carousel.----//
+    //-----I realize that there are plenty of pre built libraries for this----// 
+    //-----but I'd rather build one from scratch-----// 
+    //-----Fasten your seatbelts, the code gets pretty heavy.-----//
+
+    //first off, if we are on mobile, I want to shorten long question category names
+    $window.mobilecheck = function() {
+        var check = false;
+        (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
+        return check;
+    };
+
+    if( $window.mobilecheck() ){
+        $scope.qs = $scope.qs.map(e => {
+            if(e.category.length > 16){ e.difficulty = e.difficulty.replace('medium', 'med') };
+            e.category = e.category.replace('Entertainment: ', '');
+            e.category = e.category.replace('& Manga', '');
+            e.category = e.category.replace('Cartoon & Animations', 'Cartoons')
+            e.category = e.category.replace('Science & Nature', 'Science')
+            // and finally
+            if(e.category.length > 15){
+                e.category = e.category.slice(0, 11)
+                e.category += '...'
+            }
+            return e;
+        })
+    }
+
+    // next up are the mechanics behind the carousel itself
+
+    var pages = document.getElementsByClassName('pages')[0];
+    pages.addEventListener('touchstart', handleStart, false)
+    pages.addEventListener('touchmove', handleMove, false)
+    pages.addEventListener('touchend', handleStop, false)
+
+    var singlePageWidth = pages.offsetWidth / 5;
+    var initialOffset = pages.offsetWidth * 2 / 5;
+    var thresholdX = singlePageWidth / 3;
+    var initialX;
+    var currentX;
+    var changeInX;
+    var currentDistance;
+    var totalDistance=0;
+
+    function handleStart(e){
+        e.preventDefault();
+        initialX = e.changedTouches[0].screenX;
+    }
+
+    function handleMove(e){
+        currentX = e.changedTouches[0].screenX;
+        changeInX = currentX-initialX;
+        pages.style.transform = `translate(${changeInX+totalDistance-initialOffset}px)`
+    }
+
+    function handleStop(){
+        totalDistance += currentX-initialX;
+        // move to next or previous slide according to swipe gesture
+        if( changeInX > thresholdX ){
+            pages.style.transition = 'all .3s';
+            pages.style.transform = `translate(${-initialOffset + singlePageWidth }px)`;
+            $timeout(function(){
+                pages.style.transition = 'none';
+                totalDistance = 0;
+                $scope.currentIndex ? $scope.currentIndex-- : $scope.currentIndex = 9;
+                displayCards();
+                pages.style.transform = `translate(${-initialOffset}px)`;
+            },300);
+        } else if ( changeInX < -thresholdX ){
+            pages.style.transition = 'all .3s';
+            pages.style.transform = `translate(${-initialOffset - singlePageWidth }px)`;
+            $timeout(function(){
+                pages.style.transition = 'none';
+                totalDistance = 0;
+                $scope.currentIndex === 9 ? $scope.currentIndex = 0 : $scope.currentIndex++;
+                displayCards();
+                pages.style.transform = `translate(${-initialOffset}px)`;
+            },300);
+        } else {
+            pages.style.transition = 'all .3s';
+            pages.style.transform = `translate(${-initialOffset}px)`;
+            $timeout(function(){
+                pages.style.transition = 'none';
+                totalDistance = 0;
+            },300);
+        }
+    }
+
+    //show two cards before current card, and two cards after current card
+    $scope.cards;
+
+    function displayCards(){
+
+        console.log($scope.currentIndex)
+
+        if($scope.currentIndex > 1 && $scope.currentIndex < 8) {
+            $scope.cards = $scope.qs.slice($scope.currentIndex-2,$scope.currentIndex+3)
+        } else if ($scope.currentIndex <= 1 ) {
+            $scope.cards = $scope.qs.slice(0, $scope.currentIndex + 3)
+            var remaining = 5 - $scope.cards.length;
+            $scope.cards.unshift( ...$scope.qs.slice( $scope.qs.length - remaining ) )
+        } else if ($scope.currentIndex >= 8) {
+            $scope.cards = $scope.qs.slice( $scope.currentIndex - 2 );
+            var remaining = 5 - $scope.cards.length;
+            $scope.cards.push( ...$scope.qs.slice(0, remaining ) )
+        }
+
+        console.log($scope.cards)
+
+    }
+
+    displayCards();
+
 
 }])
 angular.module('App').controller('results', ['$scope','srvc', 'catSrvc', '$window', '$document', function($scope, srvc, catSrvc, $window, $document){
@@ -35886,10 +36003,11 @@ angular.module('App').service('srvc', function($http){
     }
 
     this.getFinishedQuestions = function(){
-        // return finsihedQuestions;
+        return finsihedQuestions;
         // so I don't have to play the game every 5 seconds
-        return [{"category":"Science & Nature","type":"boolean","difficulty":"medium","question":"The Neanderthals were a direct ancestor of modern humans.","correct_answer":"False","incorrect_answers":["True","False"],"correctIndex":1,"userIndex":10},{"category":"History","type":"multiple","difficulty":"medium","question":"All of the following are names of the Seven Warring States EXCEPT:","correct_answer":"Zhai (翟)","incorrect_answers":["Zhao (趙)","Qin (秦)","Zhai (翟)","Qi (齊)"],"correctIndex":2,"userIndex":1},{"category":"Science & Nature","type":"multiple","difficulty":"hard","question":"What is isobutylphenylpropanoic acid more commonly known as?","correct_answer":"Ibuprofen","incorrect_answers":["Morphine","Ibuprofen is the correct answer","Ketamine","Aspirin"],"correctIndex":1,"userIndex":10},{"category":"History","type":"boolean","difficulty":"easy","question":"Adolf Hitler was a german soldier in World War I.","correct_answer":"True","incorrect_answers":["False","True"],"correctIndex":1,"userIndex":0},{"category":"Entertainment: Books","type":"multiple","difficulty":"medium","question":"The novel \"Of Mice And Men\" was written by what author? ","correct_answer":"John Steinbeck ","incorrect_answers":["George Orwell","Mark Twain ","John Steinbeck ","Harper Lee"],"correctIndex":2,"userIndex":0},{"category":"Entertainment: Video Games","type":"multiple","difficulty":"medium","question":"The creator of the Touhou Project series is:","correct_answer":"ZUN","incorrect_answers":["SUN","RUN","ZUN","PUN"],"correctIndex":2,"userIndex":2},{"category":"Geography","type":"multiple","difficulty":"medium","question":"What tiny principality lies between Spain and France?","correct_answer":"Andorra","incorrect_answers":["Andorra","Liechtenstein","Monaco","San Marino"],"correctIndex":0,"userIndex":2},{"category":"Entertainment: Japanese Anime & Manga","type":"multiple","difficulty":"easy","question":"In the anime Noragami who is one of the main protagonists?","correct_answer":"Yukine","incorrect_answers":["Karuha","Mineha","Yukine","Mayu"],"correctIndex":2,"userIndex":2},{"category":"Entertainment: Film","type":"multiple","difficulty":"medium","question":"Who was the director of \"Scott Pilgrim vs. the World (2010)\"?","correct_answer":"Edgar Wright","incorrect_answers":["Phil Lord","Chris Miller","Seth Rogan","Edgar Wright"],"correctIndex":3,"userIndex":1},{"category":"Politics","type":"multiple","difficulty":"medium","question":"Before 2016, in which other year did Donald Trump run for President?","correct_answer":"2000","incorrect_answers":["2000","2012","1988","2008"],"correctIndex":0,"userIndex":2}];
+        // return [{"category":"Science & Nature","type":"boolean","difficulty":"medium","question":"The Neanderthals were a direct ancestor of modern humans.","correct_answer":"False","incorrect_answers":["True","False"],"correctIndex":1,"userIndex":10},{"category":"Cartoon & Animations","type":"multiple","difficulty":"medium","question":"All of the following are names of the Seven Warring States EXCEPT:","correct_answer":"Zhai (翟)","incorrect_answers":["Zhao (趙)","Qin (秦)","Zhai (翟)","Qi (齊)"],"correctIndex":2,"userIndex":1},{"category":"Science & Nature","type":"multiple","difficulty":"hard","question":"What is isobutylphenylpropanoic acid more commonly known as?","correct_answer":"Ibuprofen","incorrect_answers":["Morphine","Ibuprofen is the correct answer","Ketamine","Aspirin"],"correctIndex":1,"userIndex":10},{"category":"History","type":"boolean","difficulty":"easy","question":"Adolf Hitler was a german soldier in World War I.","correct_answer":"True","incorrect_answers":["False","True"],"correctIndex":1,"userIndex":0},{"category":"Entertainment: Books","type":"multiple","difficulty":"medium","question":"The novel \"Of Mice And Men\" was written by what author? ","correct_answer":"John Steinbeck ","incorrect_answers":["George Orwell","Mark Twain ","John Steinbeck ","Harper Lee"],"correctIndex":2,"userIndex":0},{"category":"Entertainment: Video Games","type":"multiple","difficulty":"medium","question":"The creator of the Touhou Project series is:","correct_answer":"ZUN","incorrect_answers":["SUN","RUN","ZUN","PUN"],"correctIndex":2,"userIndex":2},{"category":"Geography","type":"multiple","difficulty":"medium","question":"What tiny principality lies between Spain and France?","correct_answer":"Andorra","incorrect_answers":["Andorra","Liechtenstein","Monaco","San Marino"],"correctIndex":0,"userIndex":2},{"category":"Entertainment: Japanese Anime & Manga","type":"multiple","difficulty":"easy","question":"In the anime Noragami who is one of the main protagonists?","correct_answer":"Yukine","incorrect_answers":["Karuha","Mineha","Yukine","Mayu"],"correctIndex":2,"userIndex":2},{"category":"Entertainment: Film","type":"multiple","difficulty":"medium","question":"Who was the director of \"Scott Pilgrim vs. the World (2010)\"?","correct_answer":"Edgar Wright","incorrect_answers":["Phil Lord","Chris Miller","Seth Rogan","Edgar Wright"],"correctIndex":3,"userIndex":1},{"category":"Politics","type":"multiple","difficulty":"medium","question":"Before 2016, in which other year did Donald Trump run for President?","correct_answer":"2000","incorrect_answers":["2000","2012","1988","2008"],"correctIndex":0,"userIndex":2}];
         // return [{"category":"General Knowledge","type":"multiple","difficulty":"easy","question":"What was the name of the WWF professional wrestling tag team made up of the wrestlers Ax and Smash?","correct_answer":"Demolition","incorrect_answers":["Demolition","The Dream Team","The Bushwhackers","The British Bulldogs"],"correctIndex":0,"userIndex":0},{"category":"General Knowledge","type":"boolean","difficulty":"easy","question":"Video streaming website YouTube was purchased in it's entirety by Facebook for US$1.65 billion in stock.","correct_answer":"False","incorrect_answers":["True","False"],"correctIndex":1,"userIndex":1},{"category":"General Knowledge","type":"multiple","difficulty":"easy","question":"What is \"dabbing\"?","correct_answer":"A dance","incorrect_answers":["A dance","A medical procedure","A sport","A language"],"correctIndex":0,"userIndex":1},{"category":"General Knowledge","type":"boolean","difficulty":"easy","question":"Nutella is produced by the German company Ferrero.","correct_answer":"False","incorrect_answers":["True","False"],"correctIndex":1,"userIndex":1},{"category":"General Knowledge","type":"multiple","difficulty":"easy","question":"What was the nickname given to the Hughes H-4 Hercules, a heavy transport flying boat which achieved flight in 1947?","correct_answer":"Spruce Goose","incorrect_answers":["Spruce Goose","Noah's Ark","Fat Man","Trojan Horse"],"correctIndex":0,"userIndex":2},{"category":"General Knowledge","type":"boolean","difficulty":"easy","question":"In 2010, Twitter and the United States Library of Congress partnered together to archive every tweet by American citizens.","correct_answer":"True","incorrect_answers":["False","True"],"correctIndex":1,"userIndex":1},{"category":"General Knowledge","type":"boolean","difficulty":"easy","question":"Adolf Hitler was born in Australia. ","correct_answer":"False","incorrect_answers":["False","True"],"correctIndex":0,"userIndex":0},{"category":"General Knowledge","type":"multiple","difficulty":"easy","question":"Which of the following card games revolves around numbers and basic math?","correct_answer":"Uno","incorrect_answers":["Uno","Go Fish","Twister","Munchkin"],"correctIndex":0,"userIndex":0},{"category":"General Knowledge","type":"boolean","difficulty":"easy","question":"Dihydrogen Monoxide was banned due to health risks after being discovered in 1983 inside swimming pools and drinking water.","correct_answer":"False","incorrect_answers":["True","False"],"correctIndex":1,"userIndex":1},{"category":"General Knowledge","type":"boolean","difficulty":"easy","question":"Scotland voted to become an independent country during the referendum from September 2014.","correct_answer":"False","incorrect_answers":["True","False"],"correctIndex":1,"userIndex":0}]
+        // return [{"category":"123456789012345678","type":"multiple","difficulty":"hard","question":"Daniel Radcliffe became a global star in the film industry due to his performance in which film franchise?","correct_answer":"Harry Potter","incorrect_answers":["Ted","Spy Kids","Pirates of the Caribbean ","Harry Potter"],"correctIndex":3,"points":200,"userIndex":2},{"category":"Entertainment: Television","type":"multiple","difficulty":"easy","question":"In the original Star Trek TV series, what was Captain James T. Kirk's middle name?","correct_answer":"Tiberius","incorrect_answers":["Trevor","Tiberius","Travis","Tyrone"],"correctIndex":1,"points":145,"userIndex":1},{"category":"Entertainment: Cartoon & Animations","type":"multiple","difficulty":"hard","question":"In the web-comic Homestuck, what is the name of the game the 4 kids play?","correct_answer":"Sburb","incorrect_answers":["Homesick","Husslie","Sburb","Hiveswap"],"correctIndex":2,"points":0,"userIndex":0},{"category":"Entertainment: Cartoon & Animations","type":"multiple","difficulty":"easy","question":"In the 1993 Disney animated series \"Bonkers\", what is the name of Bonker's second partner?","correct_answer":"Miranda Wright","incorrect_answers":["Dick Tracy","Miranda Wright","Eddie Valiant","Dr. Ludwig von Drake"],"correctIndex":1,"points":0,"userIndex":2},{"category":"Entertainment: 12345678901234567890","type":"multiple","difficulty":"medium","question":"In Cook, Serve, Delicious!, which food is NOT included in the game?","correct_answer":"Pie","incorrect_answers":["Shish Kabob","Pie","Hamburger","Lasagna"],"correctIndex":1,"points":200,"userIndex":1},{"category":"Entertainment: Music","type":"multiple","difficulty":"hard","question":"Which company did the animation for Peter Gabriel's Video Sledgehammer (1986)?","correct_answer":"Aardman Animations","incorrect_answers":["HIT Entertainment","Aardman Animations","Illumination Entertainment","VIZ Media"],"correctIndex":1,"points":0,"userIndex":3},{"category":"Science & Nature","type":"multiple","difficulty":"hard","question":"What does the term \"isolation\" refer to in microbiology?","correct_answer":"The separation of a strain from a natural, mixed population of living microbes","incorrect_answers":["A lack of nutrition in microenviroments","The nitrogen level in soil","Testing effects of certain microorganisms in an isolated enviroments, such as caves","The separation of a strain from a natural, mixed population of living microbes"],"correctIndex":3,"points":200,"userIndex":2},{"category":"Entertainment: Video Games","type":"multiple","difficulty":"medium","question":"Who is the main protagonist of \"Ace Combat Zero: The Belkan War\"?","correct_answer":"Cipher","incorrect_answers":["Cipher","Mobius 1","Blaze","Pixy"],"correctIndex":0,"points":0,"userIndex":3},{"category":"Celebrities","type":"multiple","difficulty":"medium","question":"In what year did \"Bob Ross\" die?","correct_answer":"1995","incorrect_answers":["1986","1989","1995","1997"],"correctIndex":2,"points":0,"userIndex":0},{"category":"Entertainment: Film","type":"multiple","difficulty":"medium","question":"Who directed the movie \"Alien\"?","correct_answer":"Ridley Scott","incorrect_answers":["Christopher Nolan","Michael Bay","Ridley Scott","James Cameron"],"correctIndex":2,"points":0,"userIndex":1}]
     }
 
     this.saveScore = function(username, category, score){

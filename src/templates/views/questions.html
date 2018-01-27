@@ -14,13 +14,14 @@
             <div>Points Earned: 200</div>
         </div> -->
 
-        <div class="question">
+        <div class="question hide-in-mobile">
             <h5>{{qs[currentIndex].question}}</h5>
             <div class="answer-container">
                 <button 
                     id="no-click-btn" 
                     ng-class="qs[currentIndex].correctIndex === $index ? 'correct-highlight' : qs[currentIndex].userIndex === $index ? 'incorrect-highlight' : 'nothin' " 
-                    disabled="true" ng-repeat="x in qs[currentIndex].incorrect_answers">
+                    disabled="true" 
+                    ng-repeat="x in qs[currentIndex].incorrect_answers">
                         {{x}}
                         <span ng-show="qs[currentIndex].userIndex === 10">
                             <i ng-show="qs[currentIndex].correctIndex === $index" class="fa fa-clock-o" aria-hidden="true"></i>
@@ -29,7 +30,27 @@
             </div>
         </div>
 
-        <div class="q-footer">
+        <div class="carousel show-in-mobile">
+            <div class="pages">
+                <div  
+                    class='page'  
+                    ng-repeat="x in cards">
+                        <h5>{{x.question}}</h5>
+                        <button 
+                            id="no-click-btn" 
+                            ng-repeat="y in x.incorrect_answers"
+                            ng-class="x.correctIndex === $index ? 'correct-highlight' : x.userIndex === $index ? 'incorrect-highlight' : 'nothin'"
+                            disabled='true'>
+                            {{y}}
+                            <span ng-show="x.userIndex === 10">
+                                <i ng-show="x.correctIndex === $index" class="fa fa-clock-o" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="q-footer hide-in-mobile">
 
             <button ng-click="changeIndex('down')" class="nav-btn nav-btn-left">
                 <!-- <div class="gradient"></div> -->
@@ -38,7 +59,7 @@
                 </div>
             </button>
 
-            <button class='hide-in-mobile' ng-click="changeIndex($index)" ng-repeat="x in qs">
+            <button ng-click="changeIndex($index)" ng-repeat="x in qs">
                 <i class="round-nav-btn fa fa-3x" 
                    ng-class=" $index === currentIndex ? x.correctIndex === x.userIndex ? 'fa-check-circle' : 'fa-times-circle' : 'fa-circle-o' "  
                    aria-hidden="true">
