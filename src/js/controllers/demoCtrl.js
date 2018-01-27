@@ -67,7 +67,7 @@ angular.module('App').controller('demoCtrl', ['$scope', 'srvc', '$timeout', func
 
     function displayCards(){
 
-        console.log($scope.currentIndex)
+        // console.log($scope.currentIndex)
 
         if($scope.currentIndex > 1 && $scope.currentIndex < 8) {
             $scope.cards = $scope.questions.slice($scope.currentIndex-2,$scope.currentIndex+3)
@@ -81,7 +81,7 @@ angular.module('App').controller('demoCtrl', ['$scope', 'srvc', '$timeout', func
             $scope.cards.push( ...$scope.questions.slice(0, remaining ) )
         }
 
-        console.log($scope.cards)
+        // console.log($scope.cards)
 
     }
 
